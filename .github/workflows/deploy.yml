@@ -20,7 +20,7 @@ jobs:
       run: echo $RAILS_ENV
     - name: Deploy
       run: echo "tests finished with status ${{github.event.workflow_run.conclusion}}"
-      run: RAILS_ENV
+    - name: RAILS_ENV
       run: echo "-> ${{RAILS_ENV}} "
     - name: Finish
       run: echo "End deploy with success on branch docker"
