@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+      - docker
+
+name: Run tests
+jobs:
+  test:
+    name: End tests
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Teste
+      run: echo "End test"
