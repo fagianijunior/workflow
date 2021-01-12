@@ -5,10 +5,6 @@ on:
     types:
       - completed
 
-if: ${{github.ref != 'refs/heads/master'}}
-env:
-  RAILS_ENV: staging
-  RAKE_ENV: staging
 name: Deploy to AWS ECS
 jobs:
   deploy:
@@ -16,9 +12,14 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - name: Set enviroment
+      if: ${{github.ref != 'refs/heads/master'}}
+      env:
+        RAILS_ENV: staging
+        RAKE_ENV: staging
     - name: Deploy
       run: echo "tests finished with status ${{github.event.workflow_run.conclusion}}"
       run: RAILS_ENV
-      run: echo "-> ${{RAILS_ENV}}"
+      run: echo "-> ${{RAILS_ENV}} "
     - name: Finish
       run: echo "End deploy with success on branch docker"
