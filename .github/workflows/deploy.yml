@@ -17,6 +17,7 @@ jobs:
       env:
         RAILS_ENV: staging
         RAKE_ENV: staging
+      run: echo $RAILS_ENV
     - name: Deploy
       run: echo "tests finished with status ${{github.event.workflow_run.conclusion}}"
       run: RAILS_ENV
