@@ -12,15 +12,10 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: Set enviroment
-      if: ${{github.ref != 'refs/heads/master'}}
-      env:
-        RAILS_ENV: staging
-        RAKE_ENV: staging
-      run: echo $RAILS_ENV
-    - name: Deploy
-      run: echo "tests finished with status ${{github.event.workflow_run.conclusion}}"
-    - name: RAILS_ENV
-      run: echo $RAILS_ENV
-    - name: Finish
-      run: echo "End deploy with success on branch docker"
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.workflow_run.head_branch }}
+
+    - name: Branch
+      run: echo ${{ github.event.workflow_run.head_branch }}
