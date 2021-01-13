@@ -11,4 +11,4 @@ jobs:
 
     steps:
     - name: Teste
-      run: echo "End test"
+      run: echo ${{ github.event.workflow_run.head_branch }}
