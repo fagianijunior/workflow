@@ -19,6 +19,8 @@ jobs:
 
     - name: Branch
       run: echo ${{ github.event.workflow_run.head_branch }}
-    - name: workflow
+    - name: GITHUB_REF_SLUG
+      run: echo ${{ env.GITHUB_REF_SLUG }}
+    - name: workflow-repository-name
       run: echo ${{ github.event.workflow_run.repository.name }}
    
