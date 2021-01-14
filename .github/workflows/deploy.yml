@@ -53,6 +53,7 @@ jobs:
           GHENVTEST=${{ env.GITHUB_SHA_SHORT }}
         publish: true
 
+    # BUNDLE_GITHUB__COM=${{ secrets.BUNDLE_GITHUB }}
     # - name: Render web AWS ECS Task Definition
     #   id: task-def-web
     #   uses: fagiani/amazon-ecs-render-task-definition@master
