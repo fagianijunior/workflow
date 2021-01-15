@@ -52,3 +52,14 @@ test:
   username: postgres
   password:
   timeout: 5000
+
+staging: &env
+  <<: *default
+  host: <%= ENV['DB_HOST'] %>
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: <%= ENV['RAILS_MAX_THREADS'] %>
+
+production:
+  <<: *env
