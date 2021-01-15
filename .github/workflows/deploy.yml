@@ -48,24 +48,24 @@ jobs:
         buildpacks: 'heroku/ruby'
         builder: 'heroku/buildpacks:18'
         env:
-          RAILS_ENV=staging
-          RAKE_ENV=staging
           GHENVTEST=${{ env.GITHUB_SHA_SHORT }}
         publish: true
 
-    # BUNDLE_GITHUB__COM=${{ secrets.BUNDLE_GITHUB }}
-    # - name: Render web AWS ECS Task Definition
-    #   id: task-def-web
-    #   uses: fagiani/amazon-ecs-render-task-definition@master
-    #   with:
-    #     task-definition: .aws/ecs/task-definition-web.json
-    #     family-name: ${{ env.GITHUB_REPOSITORY_SLUG }}-${{ github.event.workflow_run.head_branch }}-web
-    #     container-name: ${{ env.GITHUB_REPOSITORY_SLUG }}-web
-    #     image: ${{ steps.build-image.outputs.image-name }}
-    #     aws-sm-name: ${{ secrets.AWS_SM_ENV_VARS }}
-    #     aws-account-id: ${{ steps.aws-config.outputs.aws-account-id }}
-    #     aws-sm-arns: true
-    #     use-secrets: true
+    RAILS_ENV=staging
+    RAKE_ENV=staging
+    BUNDLE_GITHUB__COM=${{ secrets.BUNDLE_GITHUB }}
+    - name: Render web AWS ECS Task Definition
+      id: task-def-web
+      uses: fagiani/amazon-ecs-render-task-definition@master
+      with:
+        task-definition: .aws/ecs/task-definition-web.json
+        family-name: ${{ env.GITHUB_REPOSITORY_SLUG }}-${{ github.event.workflow_run.head_branch }}-web
+        container-name: ${{ env.GITHUB_REPOSITORY_SLUG }}-web
+        image: ${{ steps.build-image.outputs.image-name }}
+        aws-sm-name: ${{ secrets.AWS_SM_ENV_VARS }}
+        aws-account-id: ${{ steps.aws-config.outputs.aws-account-id }}
+        aws-sm-arns: true
+        use-secrets: true
 
     # - name: Render worker AWS ECS Task Definition
     #   id: task-def-worker
@@ -93,14 +93,14 @@ jobs:
         aws-sm-arns: true
         use-secrets: true
 
-    # - name: Deploy web process to AWS ECS
-    #   if: ${{ steps.task-def-web.conclusion == 'success' }}
-    #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-    #   with:
-    #     task-definition: ${{ steps.task-def-web.outputs.task-definition }}
-    #     service: auth-web-staging
-    #     cluster: growthhackers-staging
-    #     wait-for-service-stability: false
+    - name: Deploy web process to AWS ECS
+      if: ${{ steps.task-def-web.conclusion == 'success' }}
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def-web.outputs.task-definition }}
+        service: auth-web-staging
+        cluster: fagianijunior-staging
+        wait-for-service-stability: false
 
     # - name: Deploy worker process to AWS ECS
     #   if: ${{ steps.task-def-web.conclusion == 'success' && steps.task-def-worker.conclusion == 'success' }}
@@ -108,7 +108,7 @@ jobs:
     #   with:
     #     task-definition: ${{ steps.task-def-worker.outputs.task-definition }}
     #     service: auth-worker-staging
-    #     cluster: growthhackers-staging
+    #     cluster: fagianijunior-staging
     #     wait-for-service-stability: false
 
     - name: Deploy rake process to AWS ECS
@@ -117,7 +117,7 @@ jobs:
       with:
         task-definition: ${{ steps.task-def-rake.outputs.task-definition }}
         service: auth-rake-staging
-        cluster: growthhackers-staging
+        cluster: fagianijunior-staging
         wait-for-service-stability: false
 
     - name: Execute Rake
