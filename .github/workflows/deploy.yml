@@ -24,7 +24,7 @@ jobs:
     - name: Production or Staging
       id: prod_or_stag
       run: |
-        if [$REF == 'production']
+        if ['$REF' == 'production']
         then
             echo "::set-output name=environment::production"
             echo "::set-output name=cluster_name::growthhackers-prod-fargate"
