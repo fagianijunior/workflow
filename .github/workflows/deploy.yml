@@ -21,6 +21,23 @@ jobs:
       with:
         ref: ${{ github.event.workflow_run.head_branch }}
 
+    - name: Production or Staging
+      id: prod_or_stag
+      run: |
+        if [$REF == 'production']
+        then
+            echo "::set-output name=environment::production"
+            echo "::set-output name=cluster_name::growthhackers-prod-fargate"
+        else
+            echo "::set-output name=environment::staging"
+            echo "::set-output name=cluster_name::growthhackers-staging"
+        fi
+      env:
+        REF: ${{ github.event.workflow_run.head_branch }}
+
+    - name: show output
+      run: echo ${{ steps.prod_or_stag.outputs.environment }}
+
     - name: Docker Layer Caching
       uses: satackey/action-docker-layer-caching@v0.0.8
       continue-on-error: true
