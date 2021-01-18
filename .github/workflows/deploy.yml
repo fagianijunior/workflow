@@ -33,7 +33,7 @@ jobs:
             echo "::set-output name=cluster_name::growthhackers-staging"
         fi
       env:
-        REF: ${{ github.event.workflow_run.head_branch }}
+        REF: '${{ github.event.workflow_run.head_branch }}'
 
     - name: show output
       run: echo ${{ steps.prod_or_stag.outputs.environment }}
